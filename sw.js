@@ -3,7 +3,7 @@ var CACHE_NAME = 'static-v013a';
 setInterval(async () => {
 
   try {
-    self.registration.showNotification("titulo1", {boby: "teste1"});
+    self.registration.showNotification("titulo1", {body: "teste1"});
   } catch (erro) {
     
   }
