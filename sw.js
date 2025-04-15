@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a7';
+var CACHE_NAME = 'static-v013a8';
 var ativo = false;
 
 setInterval(async () => {
@@ -72,7 +72,7 @@ self.addEventListener('install', function (event) {
         // './ico.png',
         // './favicon.ico',
         // './index.html',
-        '/',
+        // '/',
       ]);
     })
   )
