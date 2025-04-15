@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a8';
+var CACHE_NAME = 'static-v013a9';
 var ativo = false;
 
 setInterval(async () => {
@@ -13,6 +13,19 @@ setInterval(async () => {
 
 }, 30000);
 
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      console.log("instal, CACHE_NAME -> " + CACHE_NAME);
+      return cache.addAll([
+        // './ico.png',
+        // './favicon.ico',
+        'index.html',
+        // '/',
+      ]);
+    })
+  )
+});
 
 //setInterval(async () => {
   //const result = await checkOnlineStatus();
@@ -64,19 +77,6 @@ self.addEventListener("fetch", (event) => {
 
 //end fetch
 
-self.addEventListener('install', function (event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      console.log("instal, CACHE_NAME -> " + CACHE_NAME);
-      return cache.addAll([
-        // './ico.png',
-        // './favicon.ico',
-        // './index.html',
-        // '/',
-      ]);
-    })
-  )
-});
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
