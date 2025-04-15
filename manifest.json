@@ -5,7 +5,7 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "description": "ARS Sistemas. Sistema de testes",
-  "start_url": ".",
+  "start_url": "./github/",
   "prefer_related_applications": false,
   "icons": [
     {
