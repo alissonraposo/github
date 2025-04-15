@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a3';
+var CACHE_NAME = 'static-v013a4';
 
 setInterval(async () => {
 
@@ -66,9 +66,9 @@ self.addEventListener('install', function (event) {
     caches.open(CACHE_NAME).then(function (cache) {
       console.log("instal, CACHE_NAME -> " + CACHE_NAME);
       return cache.addAll([
-        'ico.png',
-        'favicon.ico',
-        'index.html',
+        'github/ico.png',
+        'github/favicon.ico',
+        'github/index.html',
         '/',
       ]);
     })
