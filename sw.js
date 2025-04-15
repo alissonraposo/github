@@ -1,9 +1,12 @@
-var CACHE_NAME = 'static-v013a4';
+var CACHE_NAME = 'static-v013a5';
+var ativo = false;
 
 setInterval(async () => {
 
   try {
-    self.registration.showNotification("titulo1", {body: "teste1"});
+    if(ativo){
+      self.registration.showNotification("titulo1", {body: "teste1"});
+    }
   } catch (erro) {
     
   }
@@ -79,6 +82,7 @@ self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
       console.log("activate, CACHE_NAME -> " + CACHE_NAME);
+      ativo = true;
       return Promise.all(
         keyList.map((key) => {
           if (key === CACHE_NAME) {
