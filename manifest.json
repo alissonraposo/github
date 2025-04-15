@@ -1,0 +1,17 @@
+{
+  "name": "Sistema de testes",
+  "short_name": "testes",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "description": "ARS Sistemas. Sistema de testes",
+  "start_url": ".",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./ico.png",
+      "sizes": "360x360",
+      "type": "image/png"
+    }
+  ]
+}
