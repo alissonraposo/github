@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a2';
+var CACHE_NAME = 'static-v013a3';
 
 setInterval(async () => {
 
