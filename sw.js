@@ -8,7 +8,7 @@ setInterval(async () => {
       self.registration.showNotification("titulo1", {body: "teste1"});
     }
   } catch (erro) {
-    
+    ativo = false;
   }
 
 }, 30000);
