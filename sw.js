@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a14';
+var CACHE_NAME = 'static-v013a16';
 
 var ativo = false;
 setInterval(async () => {
@@ -8,10 +8,11 @@ setInterval(async () => {
       self.registration.showNotification("titulo1", {body: "teste1"});
     }
   } catch (erro) {
-    ativo = false;
+    // ativo = false;
+    console.log("NAO ESTA ATIVO",erro);
   }
 
-}, 60000);
+}, 30000);
 
 self.addEventListener("periodicsync", (event) => {
   let minhaTag = "minha-tag";
