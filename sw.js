@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a17';
+var CACHE_NAME = 'static-v013a18';
 
 var ativo = false;
 setInterval(async () => {
@@ -6,13 +6,35 @@ setInterval(async () => {
   try {
     if(ativo){
       self.registration.showNotification("titulo1", {body: "teste1"});
+      /*a
+      */
     }
   } catch (erro) {
     // ativo = false;
     console.log("NAO ESTA ATIVO",erro);
   }
-
+  
 }, 5 * 60000);
+
+  self.addEventListener("notificationclick", (event) => {
+    console.log("On notification click: ", event.notification.tag);
+    event.notification.close();
+  
+    // This looks to see if the current is already open and
+    // focuses if it is
+    // event.waitUntil(
+    //   clients
+    //     .matchAll({
+    //       type: "window",
+    //     })
+    //     .then((clientList) => {
+    //       for (const client of clientList) {
+    //         if (client.url === "/" && "focus" in client) return client.focus();
+    //       }
+    //       if (clients.openWindow) return clients.openWindow("/");
+    //     }),
+    // );
+  });
 
 self.addEventListener("periodicsync", (event) => {
   let minhaTag = "minha-tag";
