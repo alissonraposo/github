@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11a1
+    <br>11a2
     <br>empresa
 </body>
 <script>
@@ -49,7 +49,7 @@
             let minhaTag = 'minha-tag';
             if(!tags.includes(minhaTag)){
                 console.log("incluir minha tag sync");
-                reg.then(async registration => {
+                navigator.serviceWorker.ready.then(async registration => {
                     try{
                         await registration.periodicSync.register(minhaTag, { minInterval: 5000});
                         console.log("periodic sync registrado",minhaTag);
