@@ -1,25 +1,32 @@
-var CACHE_NAME = 'static-v013a13';
+var CACHE_NAME = 'static-v013a14';
 
-// var ativo = false;
-// setInterval(async () => {
+var ativo = false;
+setInterval(async () => {
 
-//   try {
-//     if(ativo){
-//       self.registration.showNotification("titulo1", {body: "teste1"});
-//     }
-//   } catch (erro) {
-//     ativo = false;
-//   }
+  try {
+    if(ativo){
+      self.registration.showNotification("titulo1", {body: "teste1"});
+    }
+  } catch (erro) {
+    ativo = false;
+  }
 
-// }, 30000);
+}, 60000);
 
 self.addEventListener("periodicsync", (event) => {
   let minhaTag = "minha-tag";
+  let minhaTag2 = "minha-tag2";
   if(event.tag === minhaTag){
     console.log("if true");
     self.registration.showNotification("titulo2", {body: "teste2"});
   }else{
     console.log("if false", event.tag);
+  }
+  if(event.tag === minhaTag2){
+    console.log("if true 2");
+    self.registration.showNotification("titulo2-2", {body: "teste2-2"});
+  }else{
+    console.log("if false 2", event.tag);
   }
 });
 
@@ -92,7 +99,7 @@ self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
       console.log("activate, CACHE_NAME -> " + CACHE_NAME);
-      // ativo = true;
+      ativo = true;
       return Promise.all(
         keyList.map((key) => {
           if (key === CACHE_NAME) {

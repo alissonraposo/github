@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11a5
+    <br>11a6
     <br>empresa
 </body>
 <script>
@@ -47,12 +47,24 @@
                 console.log("tag",t);
             }
             let minhaTag = 'minha-tag';
+            let minhaTag2 = 'minha-tag2';
             if(!tags.includes(minhaTag)){
                 console.log("incluir minha tag sync");
                 navigator.serviceWorker.ready.then(async registration => {
                     try{
                         await registration.periodicSync.register(minhaTag, { minInterval: 5000});
                         console.log("periodic sync registrado",minhaTag);
+                    }catch(err){
+                        console.log("erro ao add sync tag",err);
+                    }
+                });
+            }
+            if(!tags.includes(minhaTag2)){
+                console.log("incluir minha tag sync");
+                navigator.serviceWorker.ready.then(async registration => {
+                    try{
+                        await registration.periodicSync.register(minhaTag2, { minInterval: 20000});
+                        console.log("periodic sync registrado",minhaTag2);
                     }catch(err){
                         console.log("erro ao add sync tag",err);
                     }
