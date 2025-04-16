@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11a
+    <br>11a1
     <br>empresa
 </body>
 <script>
@@ -43,9 +43,20 @@
         if('periodicSync' in reg){
             console.log("'periodicSync' in reg");
             const tags = await reg.periodicSync.getTags();
-            // if(tags.includes('minha-tag')){}
             for(let t of tags){
                 console.log("tag",t);
+            }
+            let minhaTag = 'minha-tag';
+            if(!tags.includes(minhaTag)){
+                console.log("incluir minha tag sync");
+                reg.then(async registration => {
+                    try{
+                        await registration.periodicSync.register(minhaTag, { minInterval: 5000});
+                        console.log("periodic sync registrado",minhaTag);
+                    }catch(err){
+                        console.log("erro ao add sync tag",err);
+                    }
+                });
             }
         }else{
             console.log("'periodicSync' not in reg");
