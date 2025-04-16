@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a12';
+var CACHE_NAME = 'static-v013a13';
 
 // var ativo = false;
 // setInterval(async () => {
@@ -17,6 +17,7 @@ self.addEventListener("periodicsync", (event) => {
   let minhaTag = "minha-tag";
   if(event.tag === minhaTag){
     console.log("if true");
+    self.registration.showNotification("titulo2", {body: "teste2"});
   }else{
     console.log("if false", event.tag);
   }

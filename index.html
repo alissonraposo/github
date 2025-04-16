@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11a4
+    <br>11a5
     <br>empresa
 </body>
 <script>
@@ -33,7 +33,7 @@
         const status = await navigator.permissions.query({
             name: 'periodic-background-sync',
         });
-        if(status === 'granted'){
+        if(status.state === 'granted'){
             console.log("permitido sync");
         }else{
             console.log("nao permitido sync", status);
