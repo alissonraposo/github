@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11
+    <br>11a
     <br>empresa
 </body>
 <script>
@@ -28,6 +28,7 @@
         });
     }
 
+    //sync
     async function permissaoSync(){
         const status = await navigator.permissions.query({
             name: 'periodic-background-sync',
@@ -37,7 +38,23 @@
         }else{
             console.log("nao permitido sync", status);
         }
+
+        const reg = await navigator.serviceWorker.ready;
+        if('periodicSync' in reg){
+            console.log("'periodicSync' in reg");
+            const tags = await reg.periodicSync.getTags();
+            // if(tags.includes('minha-tag')){}
+            for(let t of tags){
+                console.log("tag",t);
+            }
+        }else{
+            console.log("'periodicSync' not in reg");
+        }
     }
+
+
+
+    //end sync
 
     Notification.requestPermission().then((permission) => {
         console.log(permission);
