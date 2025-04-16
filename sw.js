@@ -1,17 +1,26 @@
-var CACHE_NAME = 'static-v013a11';
-var ativo = false;
+var CACHE_NAME = 'static-v013a12';
 
-setInterval(async () => {
+// var ativo = false;
+// setInterval(async () => {
 
-  try {
-    if(ativo){
-      self.registration.showNotification("titulo1", {body: "teste1"});
-    }
-  } catch (erro) {
-    ativo = false;
+//   try {
+//     if(ativo){
+//       self.registration.showNotification("titulo1", {body: "teste1"});
+//     }
+//   } catch (erro) {
+//     ativo = false;
+//   }
+
+// }, 30000);
+
+self.addEventListener("periodicsync", (event) => {
+  let minhaTag = "minha-tag";
+  if(event.tag === minhaTag){
+    console.log("if true");
+  }else{
+    console.log("if false", event.tag);
   }
-
-}, 30000);
+});
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -82,7 +91,7 @@ self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
       console.log("activate, CACHE_NAME -> " + CACHE_NAME);
-      ativo = true;
+      // ativo = true;
       return Promise.all(
         keyList.map((key) => {
           if (key === CACHE_NAME) {

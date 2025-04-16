@@ -10,7 +10,7 @@
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
     <br>teste bem sucedido
-    <br>11a2
+    <br>11a4
     <br>empresa
 </body>
 <script>
@@ -29,7 +29,7 @@
     }
 
     //sync
-    async function permissaoSync(){
+    async function permissaoSync(){//a permissao é concedida quando instala o app pwa
         const status = await navigator.permissions.query({
             name: 'periodic-background-sync',
         });
