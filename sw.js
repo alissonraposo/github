@@ -1,21 +1,40 @@
-var CACHE_NAME = 'static-v013a22';
+var CACHE_NAME = 'static-v013a23';
 
 var ativo = false;
 setInterval(async () => {
 
   try {
-    if(self.registration.active.state == 'activated'){
-      self.registration.showNotification("titulo1", {body: "teste1"});
-      /*a
-      */
-     console.log(self.registration);
-    }
+    getUsuarioPhp().then((res) => {
+      if(self.registration.active.state == 'activated'){
+        self.registration.showNotification("titulo1", {body: res});
+        //console.log(self.registration);
+      }
+    });     
+
   } catch (erro) {
     // ativo = false;
     console.log("NAO ESTA ATIVO",erro);
   }
   
 }, 30000);
+
+async function getUsuarioPhp (){    
+  let url = "https://saaepenedo.criarsite.online/appos/dao/getUsuarioAtualizar.php"; 
+  const conexao = await fetch(url,{
+      method: "POST",
+      headers: {
+          "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+          usuario: {id: 11, status: "A"},
+          "id": 11
+      })
+  });
+  resposta = await conexao.json();
+  // console.log("id ", id);
+  // console.log("resposta ", resposta);
+  return resposta;
+}
 
   self.addEventListener("notificationclick", (event) => {
     console.log("On notification click: ", event.notification.tag);
