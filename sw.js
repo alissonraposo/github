@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a18';
+var CACHE_NAME = 'static-v013a19';
 
 var ativo = false;
 setInterval(async () => {
@@ -119,6 +119,7 @@ self.addEventListener("fetch", (event) => {
 
 
 self.addEventListener("activate", (e) => {
+  self.registration.showNotification("titulo1", {body: "teste1ativo"});
   e.waitUntil(
     caches.keys().then((keyList) => {
       console.log("activate, CACHE_NAME -> " + CACHE_NAME);
