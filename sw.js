@@ -1,10 +1,10 @@
-var CACHE_NAME = 'static-v013a21';
+var CACHE_NAME = 'static-v013a22';
 
 var ativo = false;
 setInterval(async () => {
 
   try {
-    if(ativo){
+    if(self.registration.active.state == 'activated'){
       self.registration.showNotification("titulo1", {body: "teste1"});
       /*a
       */
