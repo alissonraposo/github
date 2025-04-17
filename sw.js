@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a23';
+var CACHE_NAME = 'static-v013a24';
 
 var ativo = false;
 setInterval(async () => {
@@ -6,7 +6,7 @@ setInterval(async () => {
   try {
     getUsuarioPhp().then((res) => {
       if(self.registration.active.state == 'activated'){
-        self.registration.showNotification("titulo1", {body: res});
+        self.registration.showNotification("titulo1", {body: res[0].nome});
         //console.log(self.registration);
       }
     });     
