@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a19';
+var CACHE_NAME = 'static-v013a20';
 
 var ativo = false;
 setInterval(async () => {
@@ -14,7 +14,7 @@ setInterval(async () => {
     console.log("NAO ESTA ATIVO",erro);
   }
   
-}, 5 * 60000);
+}, 30000);
 
   self.addEventListener("notificationclick", (event) => {
     console.log("On notification click: ", event.notification.tag);
