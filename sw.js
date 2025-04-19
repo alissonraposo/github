@@ -80,6 +80,7 @@ self.addEventListener('install', function (event) {
       return cache.addAll([
         'ico.png',
         'favicon.ico',
+        'index.js',
         'index.html',
         // '/',
       ]);
