@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a28';
+var CACHE_NAME = 'static-v013a29';
 let dbName = "dbTeste";
 let tbUsuario = "usuario";
 
@@ -13,6 +13,8 @@ setInterval(async () => {
       getUsuarioPhp(usuario).then((res) => {
         self.registration.showNotification("resposta php", {body: res[0].nome});
         //console.log(self.registration);
+      }).catch((erro) => {
+        self.registration.showNotification("erro resposta php", {body: erro.message});
       });     
     }
 
