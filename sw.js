@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v013a32';
+var CACHE_NAME = 'static-v013a33';
 let dbName = "dbTeste";
 let tbUsuario = "usuario";
 
@@ -7,7 +7,7 @@ setInterval(async () => {
 
   try {
     if(self.registration.active.state == 'activated'){
-      self.registration.showNotification("actived", {body: "self.registration.active.state == 'activated'"});
+      // self.registration.showNotification("actived", {body: "self.registration.active.state == 'activated'"});
       let usuarios = await getAllToArray(tbUsuario);
       let usuario = usuarios[0];
       await getUsuarioPhp(usuario).then((res) => {
