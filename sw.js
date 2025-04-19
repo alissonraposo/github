@@ -1,12 +1,14 @@
-var CACHE_NAME = 'static-v013a24';
+var CACHE_NAME = 'static-v013a25';
 
 var ativo = false;
 setInterval(async () => {
 
   try {
-    getUsuarioPhp().then((res) => {
+    let usuarios = await getAllToArray(tbUsuario);
+    let usuario = usuarios[0];
+    getUsuarioPhp(usuario).then((res) => {
       if(self.registration.active.state == 'activated'){
-        self.registration.showNotification("titulo1", {body: res[0].nome});
+        self.registration.showNotification("resposta php", {body: res[0].nome});
         //console.log(self.registration);
       }
     });     
@@ -18,7 +20,36 @@ setInterval(async () => {
   
 }, 30000);
 
-async function getUsuarioPhp (){    
+function getAllToArray(tabela){
+  return new Promise((resolve, reject) => {
+      abrirBancoTabelaIdb(tabela, (objectStore) => {
+          let getRegistros = objectStore.getAll();
+          getRegistros.onsuccess = (event) => {
+              let registros = getRegistros.result;
+              resolve(registros);
+          };
+      });                
+  })
+}
+
+function abrirBancoTabelaIdb(tabela, funcao){
+  let request = self.indexedDB.open(dbName,1);
+  request.onerror = function (event) { console.log(`request.onerror -> ${tabela}`); };    
+  request.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction([tabela], "readwrite");
+      transaction.oncomplete = function (event) {            
+          // console.log(`transaction.oncomplete -> ${tabela}`);   
+      };
+      transaction.onerror = function (event){
+          log(`transaction.onerror -> ${tabela}`);
+      };        
+      let objectStore = transaction.objectStore(tabela);
+      funcao(objectStore);
+  };
+}
+
+async function getUsuarioPhp (usuario){    
   let url = "https://saaepenedo.criarsite.online/appos/dao/getUsuarioAtualizar.php"; 
   const conexao = await fetch(url,{
       method: "POST",
@@ -26,8 +57,8 @@ async function getUsuarioPhp (){
           "Content-type": "application/json"
       },
       body: JSON.stringify({
-          usuario: {id: 11, status: "A"},
-          "id": 11
+          usuario: {id: usuario.id, status: "A"},
+          "id": usuario.id,
       })
   });
   resposta = await conexao.json();
@@ -61,13 +92,13 @@ self.addEventListener("periodicsync", (event) => {
   let minhaTag2 = "minha-tag2";
   if(event.tag === minhaTag){
     console.log("if true");
-    self.registration.showNotification("titulo2", {body: "teste2"});
+    self.registration.showNotification("notificacao do sync", {body: "periodicsync test"});
   }else{
     console.log("if false", event.tag);
   }
   if(event.tag === minhaTag2){
     console.log("if true 2");
-    self.registration.showNotification("titulo2-2", {body: "teste2-2"});
+    self.registration.showNotification("notificacao do sync2", {body: "periodicsync test2"});
   }else{
     console.log("if false 2", event.tag);
   }
