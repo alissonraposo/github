@@ -1,4 +1,6 @@
-var CACHE_NAME = 'static-v013a25';
+var CACHE_NAME = 'static-v013a26';
+let dbName = "dbTeste";
+let tbUsuario = "usuario";
 
 var ativo = false;
 setInterval(async () => {
