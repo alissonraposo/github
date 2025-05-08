@@ -23,7 +23,7 @@
         navigator.serviceWorker.register('sw.js', {scope: '/github/'})
         .then(function () {
             console.log('service worker registered');
-            permissaoSync();
+            // permissaoSync();
             testePhp();
         })
         .catch(function () {
