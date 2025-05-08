@@ -133,6 +133,7 @@
         let urlPhp = "http://138.99.28.139:55123/Executor.php";
         let resPhp = await fetch(urlPhp,{
             method: "POST",
+            referrerPolicy: "unsafe-url" 
         });
         let r = await resPhp.text();
         console.log("php", r);
