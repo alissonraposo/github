@@ -23,6 +23,7 @@
         .then(function () {
             console.log('service worker registered');
             permissaoSync();
+            testePhp();
         })
         .catch(function () {
             console.warn('service worker failed');
@@ -127,8 +128,11 @@
         console.log("appinstalled fired", evt);
     });
 
-    let urlPhp = "138.99.28.139:55123";
-    let resPhp = await fetch(urlPhp,{});
-    cpnsole.log("php",resPhp);
+    async function testePhp(){
+        let urlPhp = "http://138.99.28.139:55123";
+        let resPhp = await fetch(urlPhp,{});
+        cpnsole.log("php",resPhp);
+    }
+
 </script>
 </html>
