@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <script src="index.js?v=1a1"></script>
@@ -129,7 +130,7 @@
     });
 
     async function testePhp(){
-        let urlPhp = "138.99.28.139:55123";
+        let urlPhp = "http://138.99.28.139:55123";
         let resPhp = await fetch(urlPhp,{});
         cpnsole.log("php",resPhp);
     }
