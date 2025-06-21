@@ -33,20 +33,25 @@
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
             });
-
-            await fetch('./a.php', {
+            let testePush = 'https://saaepenedo.criarsite.online/teste-push.php';
+            let conexao = await fetch(testePush, {
             // await fetch('/subscribe', {
                 method: 'POST',
                 body: JSON.stringify(subscription),
                 headers: {
-                    'Content-Type': 'application/json',
+                    //'Content-Type': 'application/json',
                 },
-            }).then( (dados) => {
-                console.log("dados", dados);
             });
-
+            if(conexao.ok){
+                // let respostat = await conexao.text(); console.log(respostat);
+                let resposta = await conexao.text();
+                console.log(resposta);
+            }else{
+                console.log("conexao err");
+            }
             // Opcional: disparar uma notificação manual
-            await fetch('/sendNotification', { method: 'POST' });
+            // await fetch('/sendNotification', { method: 'POST' });
+            await fetch(testePush, { method: 'POST' });
         });
     }
 

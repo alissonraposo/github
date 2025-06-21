@@ -1,9 +1,12 @@
-var CACHE_NAME = 'static-v024';
+var CACHE_NAME = 'static-v042';
 // let dbName = "dbTeste";
 // let tbUsuario = "usuario";
 
 self.addEventListener('push', event => {
   const data = event.data.json();
+  // const data = event.data;
+  // console.log("push",event);
+  console.log("push",data);
   self.registration.showNotification(data.title, {
     body: data.body,
     icon: 'https://cdn-icons-png.flaticon.com/512/727/727399.png',
