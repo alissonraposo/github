@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v023';
+var CACHE_NAME = 'static-v024';
 // let dbName = "dbTeste";
 // let tbUsuario = "usuario";
 

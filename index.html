@@ -21,11 +21,7 @@
     <button id="subscribe">Ativar Notificações</button>
     <!-- <script src="main.js"></script> -->
 
-    <?php 
-        if(isset($_POST["request"])){
-            
-        }
-    ?>
+    
 </body>
 <script>
     const publicVapidKey = 'BHtSnKaN3mte0diS7KCRRIeQ1MvfEc4iG7YmZqjpcv7bs4qeb5JJutsr3gibp4-QgkCkNUOuiv4ytAivYdPOYPg';
@@ -38,7 +34,7 @@
                 applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
             });
 
-            await fetch('./index.html', {
+            await fetch('./a.php', {
             // await fetch('/subscribe', {
                 method: 'POST',
                 body: JSON.stringify(subscription),
