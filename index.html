@@ -14,22 +14,92 @@
     <br>teste bem sucedido
     <br>11a24
     <br>empresa
+    <br>
+    <br>
+        
+    <h1>Push Notifications com JavaScript</h1>
+    <button id="subscribe">Ativar Notificações</button>
+    <!-- <script src="main.js"></script> -->
+
+    <?php 
+        if(isset($_POST["request"])){
+            
+        }
+    ?>
 </body>
 <script>
-
-
-
+    const publicVapidKey = 'BHtSnKaN3mte0diS7KCRRIeQ1MvfEc4iG7YmZqjpcv7bs4qeb5JJutsr3gibp4-QgkCkNUOuiv4ytAivYdPOYPg';
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js', {scope: '/github/'})
-        .then(function () {
-            console.log('service worker registered');
-            // permissaoSync();
-            // testePhp();
-        })
-        .catch(function () {
-            console.warn('service worker failed');
+        document.getElementById('subscribe').addEventListener('click', async () => {
+            const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
+
+            const subscription = await register.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+            });
+
+            await fetch('./index.html', {
+            // await fetch('/subscribe', {
+                method: 'POST',
+                body: JSON.stringify(subscription),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then( (dados) => {
+                console.log("dados", dados);
+            });
+
+            // Opcional: disparar uma notificação manual
+            await fetch('/sendNotification', { method: 'POST' });
         });
     }
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+        const rawData = atob(base64);
+        return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+    }
+
+
+    // if ('serviceWorker' in navigator) {
+    //     let registrarSw = async () => {
+    //         const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'})
+    //             .then(function () {
+    //                 console.log('service worker registered');
+    //                 // permissaoSync();
+    //                 // testePhp();
+    //             })
+    //             .catch(function () {
+    //                 console.warn('service worker failed');
+    //             });
+    //         let registrarPush = async () => {
+    //             const subscription = await register.pushManager.subscribe({
+    //                 userVisibleOnly: true,
+    //                 applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+    //             });
+    //             await fetch('/subscribe', {
+    //                 method: 'POST',
+    //                 body: JSON.stringify(subscription),
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //             });
+                
+    //             // Opcional: disparar uma notificação manual
+    //             await fetch('/sendNotification', { method: 'POST' });
+    //         };
+    //         registrarPush();
+    //     };        
+    //     registrarSw();
+    // }
+    
+    // function urlBase64ToUint8Array(base64String) {
+    //     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    //     const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    //     const rawData = atob(base64);
+    //     return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+    // }
 
     //sync
     // async function permissaoSync(){//a permissao é concedida quando instala o app pwa
