@@ -1,17 +1,46 @@
 var CACHE_NAME = 'static-v042';
 // let dbName = "dbTeste";
 // let tbUsuario = "usuario";
+// firebase-messaging-sw.js ->...
+let SUA_VAPID_KEY_PUBLICA = 'BJxrhlmBhWT3lnsKW6dJkjZa_FOisHadULzGc2kmQ01Ep1aMTmoxt-04Y-lu7wTJYAi8nAu9rCqXokBJ22UDlyE';
+//chave privada firebase->PbOHA7TYSyrGQGEe4xvjUShgvZpwYnrvKZeCEXHWQA8
+let SUA_API_KEY = 'AIzaSyAEiHwy0a5GYu99D507jAqqMnrk2goCdB0';
+let SEU_DOMINIO = "sisos-saae.firebaseapp.com";
+let SEU_PROJECT_ID = 'sisos-saae';
+let SEU_SENDER_ID = '957126096327';
+let SEU_APP_ID = '1:957126096327:web:47f5a783907ec5b094d5e2';
+importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-self.addEventListener('push', event => {
-  const data = event.data.json();
-  // const data = event.data;
-  // console.log("push",event);
-  console.log("push",data);
-  self.registration.showNotification(data.title, {
-    body: data.body,
-    icon: 'https://cdn-icons-png.flaticon.com/512/727/727399.png',
+firebase.initializeApp({
+  apiKey: SUA_API_KEY,
+  authDomain: SEU_DOMINIO,
+  projectId: SEU_PROJECT_ID,
+  messagingSenderId: SEU_SENDER_ID,
+  appId: SEU_APP_ID,
+});
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(function(payload) {
+  const { title, body } = payload.notification;
+  self.registration.showNotification(title, {
+    body,
+    icon: './icon.png'
   });
 });
+
+
+// self.addEventListener('push', event => {
+//   const data = event.data.json();
+//   // const data = event.data;
+//   // console.log("push",event);
+//   console.log("push",data);
+//   self.registration.showNotification(data.title, {
+//     body: data.body,
+//     icon: 'https://cdn-icons-png.flaticon.com/512/727/727399.png',
+//   });
+// });
 
 self.addEventListener('install', function (event) {
   event.waitUntil(

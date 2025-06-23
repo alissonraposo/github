@@ -7,6 +7,13 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <script src="index.js?v=1a1"></script>
+    <!-- firebase -->
+    <!-- Firebase App (core) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <!-- Firebase Cloud Messaging -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+
+
     <title>Meu github</title>
 </head>
 <body>
@@ -24,36 +31,95 @@
     
 </body>
 <script>
-    const publicVapidKey = 'BHtSnKaN3mte0diS7KCRRIeQ1MvfEc4iG7YmZqjpcv7bs4qeb5JJutsr3gibp4-QgkCkNUOuiv4ytAivYdPOYPg';
+    // firebase-config.js
+    let SUA_VAPID_KEY_PUBLICA = 'BJxrhlmBhWT3lnsKW6dJkjZa_FOisHadULzGc2kmQ01Ep1aMTmoxt-04Y-lu7wTJYAi8nAu9rCqXokBJ22UDlyE';
+    let SUA_API_KEY = 'AIzaSyAEiHwy0a5GYu99D507jAqqMnrk2goCdB0';
+    let SEU_DOMINIO = "sisos-saae.firebaseapp.com";
+    let SEU_PROJECT_ID = 'sisos-saae';
+    let SEU_SENDER_ID = '957126096327';
+    let SEU_APP_ID = '1:957126096327:web:47f5a783907ec5b094d5e2';
+    const firebaseConfig = {
+        apiKey: SUA_API_KEY,
+        authDomain: SEU_DOMINIO,
+        projectId: SEU_PROJECT_ID,
+        messagingSenderId: SEU_SENDER_ID,
+        appId: SEU_APP_ID,
+    };
+
+    // firebase.initializeApp(firebaseConfig);
+
     if ('serviceWorker' in navigator) {
         document.getElementById('subscribe').addEventListener('click', async () => {
             const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
-
-            const subscription = await register.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-            });
-            let testePush = 'https://saaepenedo.criarsite.online/teste-push.php';
-            let conexao = await fetch(testePush, {
-            // await fetch('/subscribe', {
-                method: 'POST',
-                body: JSON.stringify(subscription),
-                headers: {
-                    //'Content-Type': 'application/json',
-                },
-            });
-            if(conexao.ok){
-                // let respostat = await conexao.text(); console.log(respostat);
-                let resposta = await conexao.text();
-                console.log(resposta);
+            if(register){
+                console.log("register ok");
             }else{
-                console.log("conexao err");
+                console.log("register err");
             }
-            // Opcional: disparar uma notificação manual
-            // await fetch('/sendNotification', { method: 'POST' });
-            await fetch(testePush, { method: 'POST' });
+
+            // firebase-config.js
+            firebase.initializeApp(firebaseConfig);
+
+            const messaging = firebase.messaging();
+
+            let solicitarPermissao = async () => {
+                try {
+                    await Notification.requestPermission();
+                    const token = await messaging.getToken({
+                    vapidKey: SUA_VAPID_KEY_PUBLICA,
+                    });
+                    console.log("Token FCM:", token);
+
+                    // Envie o token para seu backend aqui, se necessário
+
+                } catch (err) {
+                    console.error("Erro ao obter token:", err);
+                }
+            }
+
+            solicitarPermissao();
+
+            messaging.onMessage((payload) => {
+                console.log('Mensagem recebida em primeiro plano:', payload);
+                const { title, body } = payload.notification;
+                new Notification(title, { body });
+            });
+
         });
     }
+
+</script>
+<script>
+    // const publicVapidKey = 'BHtSnKaN3mte0diS7KCRRIeQ1MvfEc4iG7YmZqjpcv7bs4qeb5JJutsr3gibp4-QgkCkNUOuiv4ytAivYdPOYPg';
+    // if ('serviceWorker' in navigator) {
+    //     document.getElementById('subscribe').addEventListener('click', async () => {
+    //         const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
+
+    //         const subscription = await register.pushManager.subscribe({
+    //             userVisibleOnly: true,
+    //             applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+    //         });
+    //         let testePush = 'https://saaepenedo.criarsite.online/teste-push.php';
+    //         let conexao = await fetch(testePush, {
+    //         // await fetch('/subscribe', {
+    //             method: 'POST',
+    //             body: JSON.stringify(subscription),
+    //             headers: {
+    //                 //'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         if(conexao.ok){
+    //             // let respostat = await conexao.text(); console.log(respostat);
+    //             let resposta = await conexao.text();
+    //             console.log(resposta);
+    //         }else{
+    //             console.log("conexao err");
+    //         }
+    //         // Opcional: disparar uma notificação manual
+    //         // await fetch('/sendNotification', { method: 'POST' });
+    //         await fetch(testePush, { method: 'POST' });
+    //     });
+    // }
 
     function urlBase64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
