@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v042';
+var CACHE_NAME = 'static-v043';
 // let dbName = "dbTeste";
 // let tbUsuario = "usuario";
 // firebase-messaging-sw.js ->...
@@ -31,16 +31,39 @@ messaging.onBackgroundMessage(function(payload) {
 });
 
 
-// self.addEventListener('push', event => {
+self.addEventListener('push', event => {
 //   const data = event.data.json();
 //   // const data = event.data;
-//   // console.log("push",event);
+  console.log("push",event);
+  // console.log("push",event.stopImmediatePropagation.json());
 //   console.log("push",data);
 //   self.registration.showNotification(data.title, {
 //     body: data.body,
 //     icon: 'https://cdn-icons-png.flaticon.com/512/727/727399.png',
 //   });
-// });
+
+
+  if (event.data) {
+    const data = event.data.json(); // Assume que o conteúdo é um JSON
+    // Ou
+    // const data = await event.data.text(); // Assume que o conteúdo é uma string
+    // Ou
+    // const data = await event.data.arrayBuffer(); // Assume que o conteúdo é um blob
+
+    console.log('Dados recebidos:', data);
+
+    // Processar os dados e exibir a notificação
+    const title = data.title || 'Nova notificação';
+    const options = {
+      body: data.body || 'Conteúdo da notificação',
+      icon: data.icon || '/icone-padrao.png'
+    };
+
+    event.waitUntil(
+      self.registration.showNotification(title, options)
+    );
+  }
+});
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
