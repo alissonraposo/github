@@ -66,12 +66,17 @@
                 try {
                     await Notification.requestPermission();
                     const token = await messaging.getToken({
-                    vapidKey: SUA_VAPID_KEY_PUBLICA,
+                        vapidKey: SUA_VAPID_KEY_PUBLICA,
                     });
                     console.log("Token FCM:", token);
 
                     // Envie o token para seu backend aqui, se necessário
-
+                    const subscription = await register.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(SUA_VAPID_KEY_PUBLICA)
+                    });
+                    // Envie isso para seu servidor (via fetch)
+                    console.log(JSON.stringify(subscription));
                 } catch (err) {
                     console.error("Erro ao obter token:", err);
                 }

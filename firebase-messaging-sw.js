@@ -1,4 +1,4 @@
-var CACHE_NAME = 'static-v043';
+var CACHE_NAME = 'static-v044';
 // let dbName = "dbTeste";
 // let tbUsuario = "usuario";
 // firebase-messaging-sw.js ->...
