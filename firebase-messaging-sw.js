@@ -1,35 +1,37 @@
-var CACHE_NAME = 'static-v044';
-// let dbName = "dbTeste";
-// let tbUsuario = "usuario";
-// firebase-messaging-sw.js ->...
-let SUA_VAPID_KEY_PUBLICA = 'BJxrhlmBhWT3lnsKW6dJkjZa_FOisHadULzGc2kmQ01Ep1aMTmoxt-04Y-lu7wTJYAi8nAu9rCqXokBJ22UDlyE';
-//chave privada firebase->PbOHA7TYSyrGQGEe4xvjUShgvZpwYnrvKZeCEXHWQA8
-let SUA_API_KEY = 'AIzaSyAEiHwy0a5GYu99D507jAqqMnrk2goCdB0';
-let SEU_DOMINIO = "sisos-saae.firebaseapp.com";
-let SEU_PROJECT_ID = 'sisos-saae';
-let SEU_SENDER_ID = '957126096327';
-let SEU_APP_ID = '1:957126096327:web:47f5a783907ec5b094d5e2';
-importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+var CACHE_NAME = 'github-v001';
 
-firebase.initializeApp({
-  apiKey: SUA_API_KEY,
-  authDomain: SEU_DOMINIO,
-  projectId: SEU_PROJECT_ID,
-  messagingSenderId: SEU_SENDER_ID,
-  appId: SEU_APP_ID,
-});
+//--> firebase-messaging-sw.js ...
 
-const messaging = firebase.messaging();
+  let SUA_VAPID_KEY_PUBLICA = 'BJxrhlmBhWT3lnsKW6dJkjZa_FOisHadULzGc2kmQ01Ep1aMTmoxt-04Y-lu7wTJYAi8nAu9rCqXokBJ22UDlyE';
+  //chave privada firebase->PbOHA7TYSyrGQGEe4xvjUShgvZpwYnrvKZeCEXHWQA8
+  let SUA_API_KEY = 'AIzaSyAEiHwy0a5GYu99D507jAqqMnrk2goCdB0';
+  let SEU_DOMINIO = "sisos-saae.firebaseapp.com";
+  let SEU_PROJECT_ID = 'sisos-saae';
+  let SEU_SENDER_ID = '957126096327';
+  let SEU_APP_ID = '1:957126096327:web:47f5a783907ec5b094d5e2';
+  importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+  importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-messaging.onBackgroundMessage(function(payload) {
-  const { title, body } = payload.notification;
-  self.registration.showNotification(title, {
-    body,
-    icon: './icon.png'
+  firebase.initializeApp({
+    apiKey: SUA_API_KEY,
+    authDomain: SEU_DOMINIO,
+    projectId: SEU_PROJECT_ID,
+    messagingSenderId: SEU_SENDER_ID,
+    appId: SEU_APP_ID,
   });
-});
 
+  const messaging = firebase.messaging();
+
+  messaging.onBackgroundMessage(function(payload) {
+    const { title, body } = payload.notification;
+    self.registration.showNotification(title, {
+      body,
+      icon: './icon.png'
+    });
+  });
+
+  //self.registration.showNotification("titulo1", {body: "teste1ativo"});
+//<-- firebase-messaging-sw.js
 
 self.addEventListener('push', event => {
 //   const data = event.data.json();
@@ -69,50 +71,47 @@ self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       console.log("instal, CACHE_NAME -> " + CACHE_NAME);
-      return cache.addAll([
-        'ico.png',
-        'favicon.ico',
-        'index.js',
-        'index.html',
-        // '/',
-      ]);
+      return cache.addAll(getArquivosOffline());
     })
   )
 });
 
 //fetch
-function isCacheable(request) {
-  const url = new URL(request.url);
-  return  !url.pathname.endsWith(".php") &&
-          !url.pathname.endsWith("relatorioOssEfotos.html");
-}
 
-async function cacheFirstWithRefresh(request) {
-  if(navigator.onLine){
-    const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
-      if (networkResponse.ok) {
-        const cache = await caches.open(CACHE_NAME);
-        cache.put(request, networkResponse.clone());
-      }
-      return networkResponse;
-    });
-    return (await caches.match(request)) || (await fetchResponsePromise);
-  }else{
-    return await caches.match(request);
+  function isCacheable(request) {
+    const url = new URL(request.url);
+    let resposta =  !url.pathname.endsWith(".php") &&
+                    !url.pathname.endsWith("relatorioOssEfotos.html") &&
+                    !(url.pathname.indexOf("/osimg/") > -1);
+    // console.log("resposta iscachable", resposta, url.pathname);
+    return resposta;
   }
-}
 
-self.addEventListener("fetch", (event) => {
-  if (isCacheable(event.request)) {
-    event.respondWith(cacheFirstWithRefresh(event.request));
+  async function cacheFirstWithRefresh(request) {
+    if(navigator.onLine){
+      const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
+        if (networkResponse.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+      });
+      return (await caches.match(request)) || (await fetchResponsePromise);
+    }else{
+      return await caches.match(request);
+    }
   }
-});
+
+  self.addEventListener("fetch", (event) => {
+    if (isCacheable(event.request)) {
+      event.respondWith(cacheFirstWithRefresh(event.request));
+    }
+  });
 
 //end fetch
 
 
 self.addEventListener("activate", (e) => {
-  self.registration.showNotification("titulo1", {body: "teste1ativo"});
   e.waitUntil(
     caches.keys().then((keyList) => {
       console.log("activate, CACHE_NAME -> " + CACHE_NAME);
@@ -128,6 +127,16 @@ self.addEventListener("activate", (e) => {
     }),
   );
 });
+
+function getArquivosOffline(){
+  return [
+    'ico.png',
+    'favicon.ico',
+    'index.js',
+    'index.html',
+    // '/',
+  ];
+}
 
 let log = (texto) => {
   console.log(texto);

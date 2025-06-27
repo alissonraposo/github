@@ -1,18 +1,18 @@
-let dbName = "dbTeste";
-let tbUsuario = "usuario";
+// let dbName = "dbTeste";
+// let tbUsuario = "usuario";
 
 window.addEventListener("DOMContentLoaded", () => {
     inicio();
 });
 
 async function inicio(){
-    let resposta = await criarDB();
-    if(resposta){
-        let registro = {id: 1, nome: "Alisson"};
-        resposta = abrirBancoPutRegistro(tbUsuario, registro);
-    }else{
-        console.log("usuario nao foi adicionado. erro ao criar banco.");
-    }
+    // let resposta = await criarDB();
+    // if(resposta){
+    //     let registro = {id: 1, nome: "Alisson"};
+    //     resposta = abrirBancoPutRegistro(tbUsuario, registro);
+    // }else{
+    //     console.log("usuario nao foi adicionado. erro ao criar banco.");
+    // }
 }
 
 function abrirBancoPutRegistro(tabela, registro){

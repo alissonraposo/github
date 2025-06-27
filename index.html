@@ -7,28 +7,20 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <script src="index.js?v=1a1"></script>
+    
     <!-- firebase -->
     <!-- Firebase App (core) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <!-- Firebase Cloud Messaging -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 
-
     <title>Meu github</title>
 </head>
 <body>
     <button id="setup_button" onclick="installApp()">instalar</button>
-    <br>teste bem sucedido
-    <br>11a24
-    <br>empresa
-    <br>
-    <br>
         
     <h1>Push Notifications com JavaScript</h1>
-    <button id="subscribe">Ativar Notificações</button>
-    <!-- <script src="main.js"></script> -->
-
-    
+    <button id="subscribe">Ativar Notificações</button>    
 </body>
 <script>
     // firebase-config.js
@@ -50,7 +42,8 @@
 
     if ('serviceWorker' in navigator) {
         document.getElementById('subscribe').addEventListener('click', async () => {
-            const register = await navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: '/github/'});
+            const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
+            // const register = await navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: '/github/'});
             if(register){
                 console.log("register ok");
             }else{
