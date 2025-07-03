@@ -21,6 +21,7 @@
         
     <h1>Push Notifications com JavaScript</h1>
     <button id="subscribe">Ativar Notificações</button>    
+    <p id="idToken"></p>
 </body>
 <script>
     // firebase-config.js
@@ -42,8 +43,8 @@
 
     if ('serviceWorker' in navigator) {
         document.getElementById('subscribe').addEventListener('click', async () => {
-            const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
-            // const register = await navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: '/github/'});
+            // const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
+            const register = await navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: '/github/'});
             if(register){
                 console.log("register ok");
             }else{
@@ -62,6 +63,8 @@
                         vapidKey: SUA_VAPID_KEY_PUBLICA,
                     });
                     console.log("Token FCM:", token);
+                    let p = document.getElementById("idToken");
+                    p.innerHTML = token;
 
                     // Envie o token para seu backend aqui, se necessário
                     const subscription = await register.pushManager.subscribe({
