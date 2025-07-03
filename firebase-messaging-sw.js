@@ -1,4 +1,4 @@
-var CACHE_NAME = 'github-v004';
+var CACHE_NAME = 'github-v006';
 
 //--> firebase-messaging-sw.js ...
 
@@ -62,6 +62,8 @@ self.addEventListener('push', event => {
     };
     
     //let notification = new Notification("Minha notificacao. status online="+data.boby);//erro 
+    
+    console.log("self.registration.showNotification(title, options);");
     self.registration.showNotification(title, options);
 
     event.waitUntil(

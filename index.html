@@ -43,6 +43,7 @@
 
     if ('serviceWorker' in navigator) {
         document.getElementById('subscribe').addEventListener('click', async () => {
+            let lblToken = document.getElementById("idToken");
             // const register = await navigator.serviceWorker.register('sw.js', {scope: '/github/'});
             const register = await navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: '/github/'});
             if(register){
@@ -58,23 +59,29 @@
 
             let solicitarPermissao = async () => {
                 try {
-                    await Notification.requestPermission();
-                    const token = await messaging.getToken({
-                        vapidKey: SUA_VAPID_KEY_PUBLICA,
-                    });
-                    console.log("Token FCM:", token);
-                    let p = document.getElementById("idToken");
-                    p.innerHTML = token;
+                    console.log("register",register);
+                    if(register.active != null && register.active.state == 'activated'){
+                        await Notification.requestPermission();
+                        const token = await messaging.getToken({
+                            vapidKey: SUA_VAPID_KEY_PUBLICA,
+                        });
+                        console.log("Token FCM:", token);
 
-                    // Envie o token para seu backend aqui, se necessário
-                    const subscription = await register.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(SUA_VAPID_KEY_PUBLICA)
-                    });
-                    // Envie isso para seu servidor (via fetch)
-                    console.log(JSON.stringify(subscription));
+                        lblToken.innerHTML = token;
+
+                        // Envie o token para seu backend aqui, se necessário
+                        const subscription = await register.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: urlBase64ToUint8Array(SUA_VAPID_KEY_PUBLICA)
+                        });
+                        // Envie isso para seu servidor (via fetch)
+                        console.log(JSON.stringify(subscription));
+                    }else{
+                        lblToken.innerHTML = "SW - não esta ativo";
+                    }
                 } catch (err) {
                     console.error("Erro ao obter token:", err);
+                    lblToken.innerHTML = "Erro ao obter token: <br>" + err;
                 }
             }
 
